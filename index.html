@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    /* Base styling for body */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+    /* Container for the hamburger menu */
+    .hamburger-menu {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1000;
+    }
+    /* Menu button styling */
+    .menu-button {
+      background: #333;
+      color: #fff;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    /* Hidden menu content */
+    .menu-content {
+      display: none;
+      margin-top: 10px;
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      overflow-y: auto;
+      max-height: 300px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+    /* List styling */
+    .menu-content ul {
+      list-style: none;
+      margin: 0;
+      padding: 10px;
+    }
+    .menu-content li {
+      margin-bottom: 8px;
+    }
+    .menu-content li:last-child {
+      margin-bottom: 0;
+    }
+    /* Styling for the services submenu */
+    .submenu {
+      margin-left: 15px;
+      list-style: disc;
+    }
+    /* Toggle switches styling */
+    .toggle-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .toggle-container label {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+    }
+    /* Chat icon styling */
+    .chat-icon {
+      font-size: 18px;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="hamburger-menu">
+    <button class="menu-button" id="menuToggle">Menu</button>
+    <div class="menu-content" id="menuContent">
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li>
+          <a href="#">Services</a>
+          <ul class="submenu">
+            <li><a href="#">Business Operations</a></li>
+            <li><a href="#">Contact Center</a></li>
+            <li><a href="#">IT Support</a></li>
+            <li><a href="#">Professionals</a></li>
+          </ul>
+        </li>
+        <li class="toggle-container">
+          <label>
+            <input type="checkbox" id="langToggle">
+            EN / ES
+          </label>
+        </li>
+        <li class="toggle-container">
+          <label>
+            <input type="checkbox" id="themeToggle">
+            Dark / Light
+          </label>
+        </li>
+        <li>
+          <a href="#" id="chatButton">Chat <span class="chat-icon">💬</span></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    // Toggle the menu content when the "Menu" button is clicked
+    const menuToggle = document.getElementById('menuToggle');
+    const menuContent = document.getElementById('menuContent');
+
+    menuToggle.addEventListener('click', () => {
+      menuContent.style.display = menuContent.style.display === 'block' ? 'none' : 'block';
+    });
+
+    // Dark / Light toggle functionality
+    const themeToggle = document.getElementById('themeToggle');
+    themeToggle.addEventListener('change', function() {
+      if (this.checked) {
+        document.body.style.backgroundColor = '#333';
+        document.body.style.color = '#fff';
+      } else {
+        document.body.style.backgroundColor = '#fff';
+        document.body.style.color = '#000';
+      }
+    });
+
+    // Language toggle stub functionality
+    const langToggle = document.getElementById('langToggle');
+    langToggle.addEventListener('change', function() {
+      // Insert your language switch logic here
+      alert('Language switched to ' + (this.checked ? 'ES' : 'EN'));
+    });
+
+    // Chat button stub functionality
+    const chatButton = document.getElementById('chatButton');
+    chatButton.addEventListener('click', function(e) {
+      e.preventDefault();
+      // Insert your chat functionality here
+      alert('Chat clicked!');
+    });
+  </script>
+
+</body>
+</html>
