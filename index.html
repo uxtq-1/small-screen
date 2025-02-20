@@ -3,61 +3,88 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
-    /* Base styling for body */
+    /* Base styling */
     body {
       margin: 0;
       padding: 0;
       font-family: Arial, sans-serif;
     }
-    /* Container for the hamburger menu */
+    /* Container fixed at the bottom right */
     .hamburger-menu {
       position: fixed;
       bottom: 20px;
       right: 20px;
       z-index: 1000;
+      display: flex;
+      align-items: center;
     }
-    /* Menu button styling */
+    /* The three-line hamburger button */
     .menu-button {
-      background: #333;
-      color: #fff;
-      padding: 10px 15px;
-      border: none;
-      border-radius: 5px;
+      width: 40px;
+      height: 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
       cursor: pointer;
+      margin-left: 10px;
     }
-    /* Hidden menu content */
+    .menu-button div {
+      height: 4px;
+      background-color: #333;
+      border-radius: 2px;
+    }
+    /* Horizontal menu content hidden by default */
     .menu-content {
       display: none;
-      margin-top: 10px;
       background: #fff;
       border: 1px solid #ccc;
       border-radius: 5px;
-      overflow-y: auto;
-      max-height: 300px;
+      overflow-x: auto;
+      white-space: nowrap;
       box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      padding: 10px;
     }
-    /* List styling */
     .menu-content ul {
       list-style: none;
       margin: 0;
-      padding: 10px;
+      padding: 0;
+      display: flex;
+      align-items: center;
     }
     .menu-content li {
-      margin-bottom: 8px;
+      margin-right: 15px;
+      position: relative;
     }
     .menu-content li:last-child {
-      margin-bottom: 0;
+      margin-right: 0;
     }
-    /* Styling for the services submenu */
+    /* Services submenu (appears on hover) */
     .submenu {
-      margin-left: 15px;
+      display: none;
+      position: absolute;
+      top: -5px;
+      left: 100%;
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 5px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      white-space: normal;
+      z-index: 10;
+    }
+    .services:hover .submenu {
+      display: block;
+    }
+    .submenu li {
+      margin: 5px 0;
       list-style: disc;
+      margin-left: 15px;
     }
     /* Toggle switches styling */
     .toggle-container {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 5px;
     }
     .toggle-container label {
       display: flex;
@@ -75,11 +102,10 @@
 <body>
 
   <div class="hamburger-menu">
-    <button class="menu-button" id="menuToggle">Menu</button>
     <div class="menu-content" id="menuContent">
       <ul>
         <li><a href="#">Home</a></li>
-        <li>
+        <li class="services">
           <a href="#">Services</a>
           <ul class="submenu">
             <li><a href="#">Business Operations</a></li>
@@ -105,18 +131,22 @@
         </li>
       </ul>
     </div>
+    <div class="menu-button" id="menuToggle">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
   </div>
 
   <script>
-    // Toggle the menu content when the "Menu" button is clicked
+    // Toggle the horizontal menu on button click
     const menuToggle = document.getElementById('menuToggle');
     const menuContent = document.getElementById('menuContent');
-
     menuToggle.addEventListener('click', () => {
-      menuContent.style.display = menuContent.style.display === 'block' ? 'none' : 'block';
+      menuContent.style.display = menuContent.style.display === 'flex' ? 'none' : 'flex';
     });
 
-    // Dark / Light toggle functionality
+    // Dark / Light theme toggle functionality
     const themeToggle = document.getElementById('themeToggle');
     themeToggle.addEventListener('change', function() {
       if (this.checked) {
@@ -131,7 +161,6 @@
     // Language toggle stub functionality
     const langToggle = document.getElementById('langToggle');
     langToggle.addEventListener('change', function() {
-      // Insert your language switch logic here
       alert('Language switched to ' + (this.checked ? 'ES' : 'EN'));
     });
 
@@ -139,7 +168,6 @@
     const chatButton = document.getElementById('chatButton');
     chatButton.addEventListener('click', function(e) {
       e.preventDefault();
-      // Insert your chat functionality here
       alert('Chat clicked!');
     });
   </script>
