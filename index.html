@@ -58,11 +58,11 @@
     .menu-content li:last-child {
       margin-right: 0;
     }
-    /* Services submenu initially hidden */
+    /* Services submenu now pops up vertically above its parent */
     .submenu {
       display: none;
       position: absolute;
-      top: 40px;
+      bottom: 100%; /* Position the submenu above the parent */
       left: 0;
       background: #fff;
       border: 1px solid #ccc;
@@ -73,7 +73,6 @@
       z-index: 10;
     }
     .submenu ul {
-      display: block;
       list-style: none;
       padding: 0;
       margin: 0;
@@ -107,6 +106,7 @@
   </style>
 </head>
 <body>
+
   <div class="hamburger-menu">
     <div class="menu-content" id="menuContent">
       <ul>
@@ -145,6 +145,7 @@
       <div></div>
     </div>
   </div>
+
   <script>
     // Toggle the horizontal menu on button click
     const menuToggle = document.getElementById('menuToggle');
@@ -152,6 +153,7 @@
     menuToggle.addEventListener('click', () => {
       menuContent.style.display = menuContent.style.display === 'flex' ? 'none' : 'flex';
     });
+
     // Toggle the services submenu on click
     const servicesToggle = document.getElementById('servicesToggle');
     const servicesSubmenu = document.getElementById('servicesSubmenu');
@@ -160,6 +162,7 @@
       e.stopPropagation();
       servicesSubmenu.style.display = servicesSubmenu.style.display === 'block' ? 'none' : 'block';
     });
+
     // Dark / Light theme toggle functionality
     const themeToggle = document.getElementById('themeToggle');
     themeToggle.addEventListener('change', function() {
@@ -171,17 +174,20 @@
         document.body.style.color = '#000';
       }
     });
+
     // Language toggle stub functionality
     const langToggle = document.getElementById('langToggle');
     langToggle.addEventListener('change', function() {
       alert('Language switched to ' + (this.checked ? 'ES' : 'EN'));
     });
+
     // Chat button stub functionality
     const chatButton = document.getElementById('chatButton');
     chatButton.addEventListener('click', function(e) {
       e.preventDefault();
       alert('Chat clicked!');
     });
+
     // Close services submenu if clicked anywhere outside
     document.addEventListener('click', (e) => {
       if (!servicesToggle.contains(e.target) && !servicesSubmenu.contains(e.target)) {
