@@ -58,11 +58,10 @@
     .menu-content li:last-child {
       margin-right: 0;
     }
-    /* Services submenu now pops up vertically above its parent */
+    /* Services submenu pops upward with an animation */
     .submenu {
-      display: none;
       position: absolute;
-      bottom: 100%; /* Position the submenu above the parent */
+      bottom: 100%; /* Attach to top of the parent element */
       left: 0;
       background: #fff;
       border: 1px solid #ccc;
@@ -71,6 +70,15 @@
       box-shadow: 0 2px 8px rgba(0,0,0,0.2);
       white-space: nowrap;
       z-index: 10;
+      transform: translateY(100%);
+      opacity: 0;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      pointer-events: none; /* Prevent interaction when hidden */
+    }
+    .submenu.open {
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: auto;
     }
     .submenu ul {
       list-style: none;
@@ -154,13 +162,12 @@
       menuContent.style.display = menuContent.style.display === 'flex' ? 'none' : 'flex';
     });
 
-    // Toggle the services submenu on click
+    // Toggle the services submenu on click with an upward sliding animation
     const servicesToggle = document.getElementById('servicesToggle');
     const servicesSubmenu = document.getElementById('servicesSubmenu');
     servicesToggle.addEventListener('click', (e) => {
-      // Prevent the menu from closing if clicking inside the submenu area
       e.stopPropagation();
-      servicesSubmenu.style.display = servicesSubmenu.style.display === 'block' ? 'none' : 'block';
+      servicesSubmenu.classList.toggle('open');
     });
 
     // Dark / Light theme toggle functionality
@@ -191,7 +198,7 @@
     // Close services submenu if clicked anywhere outside
     document.addEventListener('click', (e) => {
       if (!servicesToggle.contains(e.target) && !servicesSubmenu.contains(e.target)) {
-        servicesSubmenu.style.display = 'none';
+        servicesSubmenu.classList.remove('open');
       }
     });
   </script>
