@@ -58,22 +58,25 @@
     .menu-content li:last-child {
       margin-right: 0;
     }
-    /* Services submenu (appears on hover) */
+    /* Services submenu initially hidden */
     .submenu {
       display: none;
       position: absolute;
-      top: -5px;
-      left: 100%;
+      top: 40px;
+      left: 0;
       background: #fff;
       border: 1px solid #ccc;
       border-radius: 5px;
       padding: 5px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-      white-space: normal;
+      white-space: nowrap;
       z-index: 10;
     }
-    .services:hover .submenu {
+    .submenu ul {
       display: block;
+      list-style: none;
+      padding: 0;
+      margin: 0;
     }
     .submenu li {
       margin: 5px 0;
@@ -97,6 +100,10 @@
       font-size: 18px;
       vertical-align: middle;
     }
+    /* Service option styling to indicate clickable nature */
+    .services > a {
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -106,13 +113,15 @@
       <ul>
         <li><a href="#">Home</a></li>
         <li class="services">
-          <a href="#">Services</a>
-          <ul class="submenu">
-            <li><a href="#">Business Operations</a></li>
-            <li><a href="#">Contact Center</a></li>
-            <li><a href="#">IT Support</a></li>
-            <li><a href="#">Professionals</a></li>
-          </ul>
+          <a id="servicesToggle">Services</a>
+          <div class="submenu" id="servicesSubmenu">
+            <ul>
+              <li><a href="#">Business Operations</a></li>
+              <li><a href="#">Contact Center</a></li>
+              <li><a href="#">IT Support</a></li>
+              <li><a href="#">Professionals</a></li>
+            </ul>
+          </div>
         </li>
         <li class="toggle-container">
           <label>
@@ -146,6 +155,15 @@
       menuContent.style.display = menuContent.style.display === 'flex' ? 'none' : 'flex';
     });
 
+    // Toggle the services submenu on click
+    const servicesToggle = document.getElementById('servicesToggle');
+    const servicesSubmenu = document.getElementById('servicesSubmenu');
+    servicesToggle.addEventListener('click', (e) => {
+      // Prevent the menu from closing if clicking inside the submenu area
+      e.stopPropagation();
+      servicesSubmenu.style.display = servicesSubmenu.style.display === 'block' ? 'none' : 'block';
+    });
+
     // Dark / Light theme toggle functionality
     const themeToggle = document.getElementById('themeToggle');
     themeToggle.addEventListener('change', function() {
@@ -169,6 +187,13 @@
     chatButton.addEventListener('click', function(e) {
       e.preventDefault();
       alert('Chat clicked!');
+    });
+
+    // Close services submenu if clicked anywhere outside
+    document.addEventListener('click', (e) => {
+      if (!servicesToggle.contains(e.target) && !servicesSubmenu.contains(e.target)) {
+        servicesSubmenu.style.display = 'none';
+      }
     });
   </script>
 
