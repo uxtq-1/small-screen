@@ -8,6 +8,7 @@
       margin: 0;
       padding: 0;
       font-family: Arial, sans-serif;
+      position: relative;
     }
     /* Container fixed at the bottom right */
     .hamburger-menu {
@@ -58,27 +59,22 @@
     .menu-content li:last-child {
       margin-right: 0;
     }
-    /* Services submenu pops upward with an animation */
+    /* Submenu styling that will be moved outside the parent */
     .submenu {
       position: absolute;
-      bottom: 100%; /* Attach to top of the parent element */
-      left: 0;
       background: #fff;
       border: 1px solid #ccc;
       border-radius: 5px;
       padding: 5px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-      white-space: nowrap;
-      z-index: 10;
-      transform: translateY(100%);
+      z-index: 1100;
+      display: none;
+      transition: opacity 0.3s ease;
       opacity: 0;
-      transition: transform 0.3s ease, opacity 0.3s ease;
-      pointer-events: none; /* Prevent interaction when hidden */
     }
     .submenu.open {
-      transform: translateY(0);
+      display: block;
       opacity: 1;
-      pointer-events: auto;
     }
     .submenu ul {
       list-style: none;
@@ -121,6 +117,7 @@
         <li><a href="#">Home</a></li>
         <li class="services">
           <a id="servicesToggle">Services</a>
+          <!-- The submenu is defined here but will be moved to the body -->
           <div class="submenu" id="servicesSubmenu">
             <ul>
               <li><a href="#">Business Operations</a></li>
@@ -162,12 +159,37 @@
       menuContent.style.display = menuContent.style.display === 'flex' ? 'none' : 'flex';
     });
 
-    // Toggle the services submenu on click with an upward sliding animation
+    // Get reference to services toggle and submenu
     const servicesToggle = document.getElementById('servicesToggle');
     const servicesSubmenu = document.getElementById('servicesSubmenu');
+
+    // Move the submenu out of its parent container into the body
+    document.body.appendChild(servicesSubmenu);
+
+    // Function to position the submenu relative to the "Services" link
+    function positionSubmenu() {
+      const rect = servicesToggle.getBoundingClientRect();
+      servicesSubmenu.style.top = rect.top - servicesSubmenu.offsetHeight + "px";
+      servicesSubmenu.style.left = rect.left + "px";
+    }
+
+    // Toggle the services submenu on click with positioning update
     servicesToggle.addEventListener('click', (e) => {
       e.stopPropagation();
-      servicesSubmenu.classList.toggle('open');
+      if (servicesSubmenu.classList.contains('open')) {
+        servicesSubmenu.classList.remove('open');
+      } else {
+        // Position the submenu relative to the Services link
+        positionSubmenu();
+        servicesSubmenu.classList.add('open');
+      }
+    });
+
+    // Close services submenu if clicked anywhere outside
+    document.addEventListener('click', (e) => {
+      if (!servicesToggle.contains(e.target) && !servicesSubmenu.contains(e.target)) {
+        servicesSubmenu.classList.remove('open');
+      }
     });
 
     // Dark / Light theme toggle functionality
@@ -195,10 +217,10 @@
       alert('Chat clicked!');
     });
 
-    // Close services submenu if clicked anywhere outside
-    document.addEventListener('click', (e) => {
-      if (!servicesToggle.contains(e.target) && !servicesSubmenu.contains(e.target)) {
-        servicesSubmenu.classList.remove('open');
+    // Update submenu position on window resize (optional)
+    window.addEventListener('resize', () => {
+      if (servicesSubmenu.classList.contains('open')) {
+        positionSubmenu();
       }
     });
   </script>
